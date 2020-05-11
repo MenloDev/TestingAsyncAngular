@@ -1,6 +1,6 @@
 import { MockIpInfoService } from './../mock-ip-info.service';
 import { IpInfoService } from './../ip-info.service';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 
 import { IpInfoComponent } from './ip-info.component';
 
@@ -29,33 +29,23 @@ describe('IpInfoComponent', () => {
       .compileComponents();
   }));
 
+  let start;
   beforeEach(() => {
     fixture = TestBed.createComponent(IpInfoComponent);
     component = fixture.componentInstance;
+    start = Date.now();
+  });
+
+  afterEach(() => {
+    console.log(Date.now() - start);
+  });
+
+  it('should show ip information', fakeAsync(() => {
     fixture.detectChanges();
-  });
-
-  it('should show ip information - done', (done) => {
-    setTimeout(() => {
-      fixture.detectChanges();
-      const ipAddressElement = fixture.nativeElement.querySelector('#ip-address').innerText;
-      expect(ipAddressElement).toEqual(mockIpInfoService.ipDataToReturn.ip);
-      done();
-    }, 1200);
-  });
-
-  it('should show ip information - whenStable', () => {
-    return fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      const ipAddressElement = fixture.nativeElement.querySelector('#ip-address').innerText;
-      expect(ipAddressElement).toEqual(mockIpInfoService.ipDataToReturn.ip);
-    });
-  });
-
-  it('should show ip information - whenStable async', async () => {
-    await fixture.whenStable()
+    tick(1000);
     fixture.detectChanges();
-    const ipAddressElement = fixture.nativeElement.querySelector('#ip-address').innerText;
+
+    let ipAddressElement = fixture.nativeElement.querySelector('#ip-address').innerText;
     expect(ipAddressElement).toEqual(mockIpInfoService.ipDataToReturn.ip);
-  });
+  }));
 });
