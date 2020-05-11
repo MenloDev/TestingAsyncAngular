@@ -35,12 +35,27 @@ describe('IpInfoComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should show ip information', (done) => {
+  it('should show ip information - done', (done) => {
     setTimeout(() => {
       fixture.detectChanges();
       const ipAddressElement = fixture.nativeElement.querySelector('#ip-address').innerText;
       expect(ipAddressElement).toEqual(mockIpInfoService.ipDataToReturn.ip);
       done();
     }, 1200);
+  });
+
+  it('should show ip information - whenStable', () => {
+    return fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      const ipAddressElement = fixture.nativeElement.querySelector('#ip-address').innerText;
+      expect(ipAddressElement).toEqual(mockIpInfoService.ipDataToReturn.ip);
+    });
+  });
+
+  it('should show ip information - whenStable async', async () => {
+    await fixture.whenStable()
+    fixture.detectChanges();
+    const ipAddressElement = fixture.nativeElement.querySelector('#ip-address').innerText;
+    expect(ipAddressElement).toEqual(mockIpInfoService.ipDataToReturn.ip);
   });
 });
