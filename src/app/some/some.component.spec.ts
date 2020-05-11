@@ -22,7 +22,7 @@ describe('SomeComponent', () => {
     // not rendered yet because ngOnInit hasn't run
     expect(fixture.nativeElement.querySelector('p')).toBeFalsy();
 
-    // ngInitRuns, which sets shouldDisplayTitle to true, then change detection and rerendering.
+    // ngOnInitRuns, which sets shouldDisplayTitle to true, then change detection and rerendering.
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('p')).toBeTruthy();
 
